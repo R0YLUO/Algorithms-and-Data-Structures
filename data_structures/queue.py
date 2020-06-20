@@ -38,7 +38,7 @@ class Queue(Generic[T]):
         """Prints contents in Queue from front to rear."""
         n = len(self)
         output = ""
-        if self.len == 0:
+        if self.length == 0:
             return output
         else:
             output += '['

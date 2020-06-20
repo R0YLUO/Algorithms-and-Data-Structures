@@ -39,7 +39,7 @@ class Stack(Generic[T]):
         """Prints contents in stack from top to bottom."""
         n = len(self)
         output = ""
-        if self.len == 0:
+        if self.length == 0:
             return output
         else:
             output += '['
