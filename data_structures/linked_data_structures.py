@@ -1,4 +1,11 @@
-"""Implementation of simple data structures using linked nodes."""
+"""Implementation of simple data structures using linked nodes.
+
+Linked data structures take up less space when the same data structure implemented with an array is less than half
+full. This is because when the array is less than half full, such implementation is wasting a lot of space in memory
+that is not holding anything, while the linked data structure has a dynamic length that is equal to the number of nodes
+it has. However, each node takes up twice the amount of memory than a single element in an array implementation, hence
+why it is only more efficient than the array implementation when it is less than HALF full.
+"""
 from typing import Generic, TypeVar
 T = TypeVar('T')
 
@@ -10,11 +17,31 @@ class LinkedNode(Generic[T]):
         self.link = None
 
 
+class LinkedListIterator(Generic[T]):
+
+    def __init__(self, node: LinkedNode) -> None:
+        self.current = node
+
+    def __iter__(self) -> 'LinkedListIterator':
+        return self
+
+    def __next__(self) -> T:
+        if self.current is not None:
+            item = self.current.item
+            self.current = self.current.link
+            return item
+        else:
+            raise StopIteration
+
+
 class LinkedList(Generic[T]):
 
     def __init__(self) -> None:
         self.head = None
         self.length = 0
+
+    def __iter__(self) -> LinkedListIterator[T]:
+        return LinkedListIterator(self.head)
 
     def is_empty(self) -> bool:
         return self.head is None
@@ -89,3 +116,74 @@ class LinkedList(Generic[T]):
                 output += ", " + str(current.item)
             output += ']'
             return output
+
+
+class LinkedStack(Generic[T]):
+
+    def __init__(self) -> None:
+        self.top = None
+        self.length = 0
+
+    def is_empty(self) -> bool:
+        return self.top is None
+
+    def clear(self) -> None:
+        self.top = None
+        self.length = 0
+
+    def __len__(self) -> int:
+        return self.length
+
+    def push(self, item: T) -> None:
+        new_node = LinkedNode(item)
+        new_node.link = self.top.link
+        self.top = new_node
+        self.length += 1
+
+    def pop(self) -> T:
+        if not self.is_empty():
+            item = self.top.item
+            self.top = self.top.link
+            self.length -= 1
+            return item
+        else:
+            raise ValueError("Stack is empty")
+
+
+class LinkedQueue(Generic[T]):
+
+    def __init__(self) -> None:
+        self.front = None
+        self.rear = None
+        self.length = 0
+
+    def __len__(self) -> int:
+        return self.length
+
+    def clear(self) -> None:
+        self.length = 0
+        self.front = None
+        self.rear = None
+
+    def is_empty(self) -> bool:
+        return self.front is None and self.rear is None
+
+    def append(self, item: T) -> None:
+        new_node = LinkedNode(item)
+        if self.front is None:
+            self.front = new_node
+        else:
+            self.rear.link = new_node
+        self.rear = new_node
+        self.length += 1
+
+    def serve(self) -> T:
+        if not self.is_empty():
+            item = self.front.item
+            self.front = self.front.link
+            self.length -= 1
+            if self.is_empty():
+                self.rear = None
+            return item
+        else:
+            raise ValueError("Queue is empty")
