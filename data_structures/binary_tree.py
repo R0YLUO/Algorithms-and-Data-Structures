@@ -1,4 +1,5 @@
 from typing import Generic, TypeVar, Callable
+from data_structures.stack import Stack
 K = TypeVar('K')
 I = TypeVar('I')
 
@@ -19,6 +20,9 @@ class BinarySearchTree(Generic[K, I]):
 
     def __init__(self) -> None:
         self.root = None
+
+    def __iter__(self) -> 'BSTInOrderIterator':
+        return BSTInOrderIterator(self.root)
 
     def is_empty(self) -> bool:
         return self.root is None
@@ -118,3 +122,29 @@ class BinarySearchTree(Generic[K, I]):
             self.__postfix_traversal_aux(f, current.left_child)
             self.__postfix_traversal_aux(f, current.right_child)
             f(current)
+
+
+class BSTInOrderIterator:
+    """Iterates through the binary search tree in order."""
+
+    def __init__(self, root: BinaryTreeNode[K, I]) -> None:
+        self.stack = Stack()
+        self.stack.push(root)
+        self.__push_left_nodes(root)
+
+    def __iter__(self) -> 'BSTInOrderIterator':
+        return self
+
+    def __next__(self) -> I:
+        if self.stack.is_empty():
+            raise StopIteration
+        current = self.stack.pop()
+        if current.right_child is not None:
+            self.stack.push(current.right)
+            self.__push_left_nodes(current.right_child)
+        return current.item
+
+    def __push_left_nodes(self, current: BinaryTreeNode[K, I]) -> None:
+        if current.left_child is not None:
+            self.stack.push(current.left_child)
+            self.__push_left_nodes(current.left_child)
