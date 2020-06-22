@@ -8,29 +8,32 @@ class Stack(Generic[T]):
 
     def __init__(self) -> None:
         """Instantiates an empty list"""
-        self.len = 0
+        self.length = 0
         self.list = []
 
     def __len__(self) -> int:
         """Length of our stack"""
-        return self.len
+        return self.length
+
+    def is_empty(self) -> bool:
+        return len(self) == 0
 
     def push(self, item: T) -> None:
         """Add item to top of stack"""
         self.list.append(item)
-        self.len += 1
+        self.length += 1
 
     def pop(self) -> T:
         """Remove item from top of stack and return it"""
-        if self.len > 0:
-            self.len -= 1
+        if not self.is_empty():
+            self.length -= 1
             return self.list.pop()
         else:
             raise Exception("Stack is empty")
 
     def peek(self) -> T:
         """Look at item at top without removing"""
-        if len(self) > 0:
+        if not self.is_empty():
             return self.list[len(self) - 1]
         else:
             raise Exception("Stack is empty")
@@ -39,7 +42,7 @@ class Stack(Generic[T]):
         """Prints contents in stack from top to bottom."""
         n = len(self)
         output = ""
-        if self.length == 0:
+        if n == 0:
             return output
         else:
             output += '['

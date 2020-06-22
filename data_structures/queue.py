@@ -7,29 +7,32 @@ class Queue(Generic[T]):
 
     def __init__(self) -> None:
         """Instantiates an empty list"""
-        self.len = 0
+        self.length = 0
         self.list = []
 
     def __len__(self) -> int:
         """Length of our queue"""
-        return self.len
+        return self.length
+
+    def is_empty(self) -> bool:
+        return len(self) == 0
 
     def append(self, item: T) -> None:
         """Add item to rear of queue"""
         self.list.append(item)
-        self.len += 1
+        self.length += 1
 
     def serve(self) -> T:
         """Remove item at front of queue and return it"""
-        if self.len > 0:
-            self.len -= 1
+        if not self.is_empty():
+            self.length -= 1
             return self.list.pop(0)
         else:
             raise Exception("Queue is empty")
 
     def peek(self) -> T:
         """Look at item at front of queue removing"""
-        if len(self) > 0:
+        if not self.is_empty():
             return self.list[0]
         else:
             raise Exception("Queue is empty")
@@ -38,7 +41,7 @@ class Queue(Generic[T]):
         """Prints contents in Queue from front to rear."""
         n = len(self)
         output = ""
-        if self.length == 0:
+        if n == 0:
             return output
         else:
             output += '['
