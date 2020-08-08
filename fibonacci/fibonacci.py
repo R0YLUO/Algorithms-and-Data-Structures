@@ -26,9 +26,9 @@ def iterative_fibonacci(n: int) -> int:
 
 
 def recursive_fibonacci(n: int) -> int: 
-    """Finding the nth Fibonacci number recursively. 
+    """Finding the nth Fibonacci number recursively (naive). 
 
-    @complexity: O(n)
+    @complexity: O(2^n)
     """
     if n < 0: 
         raise Exception("Input must be a non-negative integer")
