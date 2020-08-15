@@ -1,7 +1,10 @@
 """Stable counting sort algorithms""" 
 
 def counting_sort(lst: list) -> list: 
-    """Sorts a given list of positive integers into ascending order"""
+    """Sorts a given list of positive integers into ascending order
+    
+    @complexity: O(N+U), where N is length of list, and U is size of largest value
+    """
     if not check_all_integers(lst) or not check_positive_inputs(lst): 
         raise Exception("List elements must be positive integers")
     n = len(lst) 
@@ -48,7 +51,10 @@ def check_all_integers(lst: list) -> bool:
     return True
 
 def counting_sort_tuples(lst: list) -> list: 
-    """Sorts a list of tuples, where the first item represents the sorting value, into ascending order"""
+    """Sorts a list of tuples, where the first item represents the sorting value, into ascending order.
+
+    @complexity: O(N+U), where N is length of list, and U is size of largest value
+    """
     n = len(lst) 
     largest_value = find_max_tuple(lst) 
     sorted_list = [None]*n 
