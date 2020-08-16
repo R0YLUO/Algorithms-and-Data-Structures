@@ -1,10 +1,13 @@
 from counting_sort import counting_sort_tuples
 
 def radix_sort(lst: list) -> list: 
-    # get biggest number and find out how many digits 
-    # append 0's to the start of numbers that do not have this many digits 
-    # in a loop going from each digit from the right to left, create a list of tuples holding digit and corresponding value 
-    # sort tuple 
+    """Sorts a list of integers into ascending order using radix sort algorithm
+    
+    @complexity: O(kN) where N is the size of the list and k is the greatest number of digits. 
+    This is derived from O((N+U)*k), where we are performing counting sort k amount of times since
+    we are sorting by each digit. But U in this case is 10, since we are considering integers of 
+    base 10. 
+    """ 
     digits = get_number_of_digits(get_max(lst)) 
     tuple_list = [] 
     for item in lst: 
